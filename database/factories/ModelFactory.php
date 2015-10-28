@@ -11,7 +11,7 @@
 |
 */
 
-$factory->define(App\Task::class, function (Faker\Generator $faker) {
+$factory->define(App\Domain\Entities\Task::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->title,
     ];

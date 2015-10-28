@@ -2,20 +2,15 @@
 
 namespace App\Providers;
 
+use App\Domain\Entities\Task;
+use App\Domain\Repositories\TaskRepository;
+use App\Infrastructure\Repositories\DoctrineTaskRepository;
+use Doctrine\ORM\Mapping\ClassMetadata;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Bootstrap any application services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        //
-    }
-
     /**
      * Register any application services.
      *
@@ -23,6 +18,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(TaskRepository::class, function (Application $app) {
+            return new DoctrineTaskRepository(
+                $app->make('em'),
+                new ClassMetadata(Task::class)
+            );
+        });
     }
 }

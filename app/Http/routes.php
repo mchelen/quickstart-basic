@@ -11,46 +11,53 @@
 |
 */
 
-use App\Task;
+use App\Domain\Entities\Task;
+use App\Domain\Repositories\TaskRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Http\Request;
 
 /**
  * Show Task Dashboard
  */
-Route::get('/', function () {
+Route::get('/', function (TaskRepository $repository) {
     return view('tasks', [
-    	'tasks' => Task::orderBy('created_at', 'asc')->get()
+        'tasks' => $repository->all('createdAt', 'ASC')
     ]);
 });
-
 
 /**
  * Add New Task
  */
-Route::post('/task', function (Request $request) {
-	$validator = Validator::make($request->all(), [
-		'name' => 'required|max:255',
-	]);
+Route::post('/task', function (Request $request, EntityManagerInterface $em) {
+    $validator = Validator::make($request->all(), [
+        'name' => 'required|max:255',
+    ]);
 
-	if ($validator->fails()) {
-		return redirect('/')
-			->withInput()
-			->withErrors($validator);
-	}
+    if ($validator->fails()) {
+        return redirect('/')
+            ->withInput()
+            ->withErrors($validator);
+    }
 
-	$task = new Task;
-	$task->name = $request->name;
-	$task->save();
+    $task = new Task(
+        $request->get('name')
+    );
 
-	return redirect('/');
+    $em->persist($task);
+    $em->flush();
+
+    return redirect('/');
 });
-
 
 /**
  * Delete Task
  */
-Route::delete('/task/{id}', function ($id) {
-	Task::findOrFail($id)->delete();
+Route::delete('/task/{id}', function ($id, TaskRepository $repository, EntityManagerInterface $em) {
 
-	return redirect('/');
+    $task = $repository->find($id);
+
+    $em->remove($task);
+    $em->flush();
+
+    return redirect('/');
 });
