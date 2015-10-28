@@ -1,3 +1,5 @@
-# Laravel Quickstart - Basic
+# Laravel Doctrine Quickstart - Basic
 
-http://laravel.com/docs/quickstart
+http://www.laraveldoctrine.org/docs/current/orm/quickstart
+
+> Based on Laravel's Quickstart repository
