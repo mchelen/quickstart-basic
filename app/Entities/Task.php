@@ -24,24 +24,15 @@ class Task
     /**
      * @ORM\Column(type="string")
      */
-    protected $lastname;
+    protected $created;
 
+    
     /**
-    * @ORM\OneToMany(targetEntity="Theory", mappedBy="scientist", cascade={"persist"})
-    * @var ArrayCollection|Theory[]
+    * @param $name
     */
-    protected $theories;
-
-    /**
-    * @param $firstname
-    * @param $lastname
-    */
-    public function __construct($firstname, $lastname)
+    public function __construct($name)
     {
-        $this->firstname = $firstname;
-        $this->lastname  = $lastname;
-
-        $this->theories = new ArrayCollection;
+        $this->name  = $name;
     }
 
     public function getId()
@@ -49,26 +40,9 @@ class Task
         return $this->id;
     }
 
-    public function getFirstname()
+    public function getName()
     {
-        return $this->firstname;
+        return $this->name;
     }
 
-    public function getLastname()
-    {
-        return $this->lastname;
-    }
-
-    public function addTheory(Theory $theory)
-    {
-        if(!$this->theories->contains($theory)) {
-            $theory->setScientist($this);
-            $this->theories->add($theory);
-        }
-    }
-
-    public function getTheories()
-    {
-        return $this->theories;
-    }
 }
