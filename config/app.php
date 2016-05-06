@@ -160,7 +160,7 @@ return [
          * Doctrine ORM Service Providers
          */
         LaravelDoctrine\ORM\DoctrineServiceProvider::class, 
-
+        LaravelDoctrine\Migrations\MigrationsServiceProvider::class,
     ],
 
     /*
