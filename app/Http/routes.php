@@ -24,7 +24,7 @@ Route::group(['middleware' => ['web']], function () {
      */
     Route::get('/', function () {
         return view('tasks', [
-            'tasks' => EntityManager->getRepository('Tasks')->findAll()
+            'tasks' => EntityManager::getRepository('Tasks')->findAll()
         ]);
     });
 
