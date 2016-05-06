@@ -16,7 +16,7 @@ class Version20160506184129 extends AbstractMigration
     {
         (new Builder($schema))->create('tasks', function (Table $table) {
             $table->increments('id');
-            $table->
+            $table->string('name');
             $table->timestamps();
         });
     }
