@@ -14,17 +14,13 @@
 use App\Entities\Task;
 use Illuminate\Http\Request;
 
-use Doctrine\ORM\Tools\Setup;
-use Doctrine\ORM\EntityManager;
-
-
 Route::group(['middleware' => ['web']], function () {
     /**
      * Show Task Dashboard
      */
     Route::get('/', function () {
         return view('tasks', [
-            'tasks' => EntityManager::getRepository('Tasks')->findAll()
+            'tasks' => EntityManager::getRepository('Task')->findAll()
         ]);
     });
 
